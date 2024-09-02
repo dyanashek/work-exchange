@@ -1,7 +1,7 @@
 import os
 
 import django
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from asgiref.sync import sync_to_async
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -10,12 +10,13 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'work_exchange.settings')
 django.setup()
 
 from core.models import TGUser, Text
+from filters import ChatTypeFilter
 
 
 router = Router()
 
 
-@router.message()
+@router.message(F.text, ChatTypeFilter(chat_type='private'))
 async def worker_contact(message: Message):
     user_id = message.from_user.id
 
