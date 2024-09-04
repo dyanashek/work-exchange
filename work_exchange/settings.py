@@ -41,7 +41,7 @@ ALLOWED_HOSTS = ['*',]
 
 INSTALLED_APPS = [
     'core',
-    #'notifications',
+    'notifications',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
