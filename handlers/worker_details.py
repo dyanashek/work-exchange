@@ -40,9 +40,11 @@ async def view_detailed_job(callback: CallbackQuery, callback_data: WorkerDetail
 
         employer = await sync_to_async(lambda: job.employer)()
         rating = await sync_to_async(lambda: employer.rating_rus)()
-
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
+        
         reply_text = f'''
                       *{occupations_text.rus}* {readable_occupations}\
+                      \n*{employer_name_text.rus}* {employer.name}\
                       \n*{rating_text.rus}* {rating}\
                       \n*{min_salary_text.rus}* {job.min_salary} {salary_hourly_text.rus}\
                       \n*{description_text.rus}* {job.description_rus}\
@@ -74,12 +76,14 @@ async def view_detailed_job(callback: CallbackQuery, callback_data: WorkerRedire
         occupations_text = await sync_to_async(Text.objects.get)(slug='occupations')
         description_text = await sync_to_async(Text.objects.get)(slug='description')
         rating_text = await sync_to_async(Text.objects.get)(slug='rating_employer')
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         employer = await sync_to_async(lambda: job.employer)()
         rating = await sync_to_async(lambda: employer.rating_rus)()
 
         reply_text = f'''
                       *{occupations_text.rus}* {readable_occupations}\
+                      \n*{employer_name_text.rus}* {employer.name}\
                       \n*{rating_text.rus}* {rating}\
                       \n*{min_salary_text.rus}* {job.min_salary} {salary_hourly_text.rus}\
                       \n*{description_text.rus}* {job.description_rus}\
@@ -154,12 +158,14 @@ async def view_detailed_outbox_proposal(callback: CallbackQuery, callback_data: 
         updated_date = proposal.updated_at.strftime('%d.%m.%Y')
 
         rating_text = await sync_to_async(Text.objects.get)(slug='rating_employer')
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         employer = await sync_to_async(lambda: job.employer)()
         rating = await sync_to_async(lambda: employer.rating_rus)()
 
         reply_text = f'''
                 *{job_text.rus}*\
+                \n*{employer_name_text.rus}* {employer.name}\
                 \n*{occupations_text.rus}* {readable_occupations}\
                 \n*{rating_text.rus}* {rating}\
                 \n*{min_salary_text.rus}* {job.min_salary} {salary_hourly.rus}\
@@ -211,12 +217,14 @@ async def view_detailed_outbox_proposal_redirect(callback: CallbackQuery, callba
         updated_date = proposal.updated_at.strftime('%d.%m.%Y')
 
         rating_text = await sync_to_async(Text.objects.get)(slug='rating_employer')
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         employer = await sync_to_async(lambda: job.employer)()
         rating = await sync_to_async(lambda: employer.rating_rus)()
 
         reply_text = f'''
                 *{job_text.rus}*\
+                \n*{employer_name_text.rus}* {employer.name}\
                 \n*{occupations_text.rus}* {readable_occupations}\
                 \n*{rating_text.rus}* {rating}\
                 \n*{min_salary_text.rus}* {job.min_salary} {salary_hourly.rus}\
@@ -270,11 +278,13 @@ async def view_detailed_inbox_proposal(callback: CallbackQuery, callback_data: W
         updated_date = proposal.updated_at.strftime('%d.%m.%Y')
 
         rating_text = await sync_to_async(Text.objects.get)(slug='rating_employer')
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         rating = await sync_to_async(lambda: employer.rating_rus)()
 
         reply_text = f'''
                 *{employer_text.rus}*\
+                \n*{employer_name_text.rus}* {employer.name}\
                 \n*{jobs.rus}* {occupations}\
                 \n*{rating_text.rus}* {rating}\
                 \n{salary_info}\
@@ -331,11 +341,13 @@ async def view_detailed_inbox_proposal_redirect(callback: CallbackQuery, callbac
         updated_date = proposal.updated_at.strftime('%d.%m.%Y')
 
         rating_text = await sync_to_async(Text.objects.get)(slug='rating_employer')
-
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
+        
         rating = await sync_to_async(lambda: employer.rating_rus)()
 
         reply_text = f'''
                 *{employer_text.rus}*\
+                \n*{employer_name_text.rus}* {employer.name}\
                 \n*{jobs.rus}* {occupations}\
                 \n*{rating_text.rus}* {rating}\
                 \n{salary_info}\
@@ -368,9 +380,10 @@ async def view_detailed_employer_jobs(callback: CallbackQuery, callback_data: Wo
             salary_hourly_text = await sync_to_async(Text.objects.get)(slug='salary_hourly')
             occupations_text = await sync_to_async(Text.objects.get)(slug='occupations')
             description_text = await sync_to_async(Text.objects.get)(slug='description')
+            employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
             reply_texts = []
-            reply_text = ''
+            reply_text = f'*{employer_name_text.rus}* {employer.name}'
             for job in jobs:
                 readable_occupations = await sync_to_async(lambda: job.readable_rus_occupations)()
 

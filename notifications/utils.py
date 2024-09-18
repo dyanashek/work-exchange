@@ -31,6 +31,5 @@ def send_message_on_telegram(params, files=False, token=TELEGRAM_TOKEN):
         except:
             response = False
 
-    print(response)
-    print(response.json())
     return response
+    

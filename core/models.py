@@ -189,6 +189,7 @@ class Worker(models.Model):
 class Employer(models.Model):
     tg_id = models.CharField(verbose_name='Телеграм id', max_length=100, unique=True)
     username = models.CharField(verbose_name='Ник телеграм', max_length=100, null=True, blank=True)
+    name = models.CharField(verbose_name='Имя/название компании', default='Company', max_length=150)
     phone = models.CharField(verbose_name='Номер телефона', max_length=25, null=True, blank=True)
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
 
@@ -198,7 +199,7 @@ class Employer(models.Model):
         ordering = ('-created_at',)
 
     def __str__(self):
-        return self.tg_id
+        return f'{self.tg_id} - {self.name}'
     
     def _all_offered_occupations(self):
         occupations = []

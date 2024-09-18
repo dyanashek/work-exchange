@@ -30,12 +30,14 @@ async def handle_profile_menu(callback: CallbackQuery, callback_data: EmployerMa
         your_profile = await sync_to_async(Text.objects.get)(slug='your_profile')
         phone_text = await sync_to_async(Text.objects.get)(slug='phone')
         rating_text = await sync_to_async(Text.objects.get)(slug='rating')
+        name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         rating = await sync_to_async(lambda: employer.rating_heb)()
 
         reply_text =f'''\u202B*{your_profile.heb}*\
                     \n\
                     \n*{rating_text.heb}* {rating}\
+                    \n*{name_text.heb}* {employer.name}\
                     \n*{phone_text.heb}* {employer.phone}'''
 
         try:

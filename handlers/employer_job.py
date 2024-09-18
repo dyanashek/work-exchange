@@ -243,6 +243,7 @@ async def employer_job_confirm(callback: CallbackQuery, callback_data: EmployerC
         occupations_text = await sync_to_async(Text.objects.get)(slug='occupations')
         min_salary_text = await sync_to_async(Text.objects.get)(slug='min_salary')
         description_text = await sync_to_async(Text.objects.get)(slug='description')
+        name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         readable_occupations = await sync_to_async(lambda: job.readable_rus_occupations)()
         description_rus = await translate_to_rus(description)
@@ -254,6 +255,7 @@ async def employer_job_confirm(callback: CallbackQuery, callback_data: EmployerC
 
         admin_reply_text = f'''*Заявка на размещение вакансии:*\
                 \n\
+                \n*{name_text.rus}* {employer.name}\
                 \n*{occupations_text.rus}* {readable_occupations}\
                 \n*{min_salary_text.rus}* {min_salary} ₪/час\
                 \n*{description_text.rus}* {description_rus}'''

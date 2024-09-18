@@ -86,6 +86,7 @@ async def handle_notifications_controls(callback: CallbackQuery, callback_data: 
         except:
             pass
 
+
 @router.callback_query(WorkerControlsCallBackFactory.filter(F.control == 'searching'))
 async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerControlsCallBackFactory):
     worker = await sync_to_async(Worker.objects.filter(tg_id=callback.from_user.id).first)()
@@ -260,6 +261,7 @@ async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerC
             if job.is_active and job.is_approved:
                 try:
                     employer = await sync_to_async(lambda: job.employer)()
+                    employer_name = employer.name
                     new_proposal_text = await sync_to_async(Text.objects.get)(slug='new_proposal')
 
                     await callback.bot.send_message(
@@ -283,7 +285,8 @@ async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerC
             min_salary_text = await sync_to_async(Text.objects.get)(slug='min_salary')
             description_text = await sync_to_async(Text.objects.get)(slug='description')
             salary_hourly = await sync_to_async(Text.objects.get)(slug='salary_hourly')
-
+            employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
+            
             status = await sync_to_async(lambda: proposal.readable_rus_accepted_status)()
 
             status_text = await sync_to_async(Text.objects.get)(slug='status')
@@ -295,6 +298,7 @@ async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerC
 
             reply_text = f'''
                     *{job_text.rus}*\
+                    \n*{employer_name_text.rus}* {employer_name}\
                     \n*{occupations_text.rus}* {readable_occupations}\
                     \n*{min_salary_text.rus}* {job.min_salary} {salary_hourly.rus}\
                     \n*{description_text.rus}* {job.description_rus}\
@@ -336,6 +340,7 @@ async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerC
 
         try:
             employer = await sync_to_async(lambda: proposal.employer)()
+            employer_name = employer.name
             await callback.bot.send_message(
                 chat_id=employer.tg_id,
                 text=f'\u202B{proposal_result.heb}',
@@ -346,6 +351,7 @@ async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerC
 
         employer_text = await sync_to_async(Text.objects.get)(slug='employer')
         inbox_proposal_text = await sync_to_async(Text.objects.get)(slug='inbox_proposal')
+        employer_name_text = await sync_to_async(Text.objects.get)(slug='employer_company_name')
 
         jobs = await sync_to_async(Text.objects.get)(slug='jobs')
         occupations = await sync_to_async(lambda: employer.readable_occupations)()
@@ -369,9 +375,14 @@ async def handle_search_controls(callback: CallbackQuery, callback_data: WorkerC
         created_date = proposal.created_at.strftime('%d.%m.%Y')
         updated_date = proposal.updated_at.strftime('%d.%m.%Y')
 
+        rating_text = await sync_to_async(Text.objects.get)(slug='rating_employer')
+        rating = await sync_to_async(lambda: employer.rating_rus)()
+
         reply_text = f'''
                 *{employer_text.rus}*\
+                \n*{employer_name_text.rus}* {employer_name}\
                 \n*{jobs.rus}* {occupations}\
+                \n*{rating_text.rus}* {rating}\
                 \n{salary_info}\
                 \n\
                 \n*{inbox_proposal_text.rus}*\

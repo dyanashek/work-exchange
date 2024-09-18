@@ -1,11 +1,9 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from filer.fields.image import FilerImageField
 
 from core.models import TGUser
-from notifications.utils import translate_to_heb, send_message_on_telegram
+from notifications.utils import translate_to_heb
 
 
 NOTIFICATION_TYPES = (
@@ -98,3 +96,4 @@ class Notification(models.Model):
                         break
 
         super().save(*args, **kwargs)
+        

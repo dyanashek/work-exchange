@@ -700,10 +700,10 @@ async def worker_inbox_review_detail_redirect(review_id):
 async def employer_profile_keyboard():
     keyboard = InlineKeyboardBuilder()
 
-    change_phone = await sync_to_async(Button.objects.get)(slug='change_phone')
+    change_data = await sync_to_async(Button.objects.get)(slug='change_data')
     main_menu = await sync_to_async(Button.objects.get)(slug='main_menu')
 
-    keyboard.row(InlineKeyboardButton(text=f'\u202B{change_phone.heb}', callback_data=EmployerControlsCallBackFactory(control='phone', action='change').pack()))
+    keyboard.row(InlineKeyboardButton(text=f'\u202B{change_data.heb}', callback_data=EmployerControlsCallBackFactory(control='data', action='change').pack()))
     keyboard.row(InlineKeyboardButton(text=f'\u202B{main_menu.heb}', callback_data=EmployerBackCallBackFactory(destination='main').pack()))
     
     return keyboard.as_markup()

@@ -28,7 +28,7 @@ router.callback_query.middleware(UpdateUsernameMiddleware())
 router.message.middleware(UpdateUsernameMiddleware())
 
 
-@router.callback_query(EmployerControlsCallBackFactory.filter((F.control == 'phone') & (F.action == 'change')))
+@router.callback_query(EmployerControlsCallBackFactory.filter((F.control == 'data') & (F.action == 'change')))
 async def handle_change_phone(callback: CallbackQuery, callback_data: EmployerControlsCallBackFactory, state=FSMContext):
     employer= await sync_to_async(Employer.objects.filter(tg_id=callback.from_user.id).first)()
     if employer:

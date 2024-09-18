@@ -216,6 +216,7 @@ async def worker_proposal_accepted(bot: Bot, proposal_id):
                     \n\
                     \n*Работодатель:*\
                     \n*Id tg:* {employer.tg_id}\
+                    \n*Название компании:* {employer.name}\
                     \n*Ник tg*: {employer_username}\
                     \n*Номер телефона*: {employer.phone}\
                     \n\
@@ -286,6 +287,7 @@ async def employer_proposal_accepted(bot: Bot, proposal_id):
                     \n\
                     \n*Работодатель:*\
                     \n*Id tg:* {employer.tg_id}\
+                    \n*Название компании:* {employer.name}\
                     \n*Ник tg:* {employer_username}\
                     \n*Номер телефона:* {employer.phone}\
                     '''
